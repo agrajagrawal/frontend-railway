@@ -61,8 +61,8 @@ export class PreviousTrips extends Component {
             {this.state.trains.map((train) => {
               return (
                 <tr>
-                  <td>{train.from_station}</td>
-                  <td>{train.to_station}</td>
+                  <td>{train.from_station.toUpperCase()}</td>
+                  <td>{train.to_station.toUpperCase()}</td>
                   <td>{train.no_of_passenger}</td>
                   <td>{train.cost}</td>
                   <td>{train.arrival_time}</td>

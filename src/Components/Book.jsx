@@ -47,10 +47,10 @@ export class Book extends Component {
       });
   };
   bookThisTicket = (train_id , train_from_id , train_to_id) => {
-    console.log(train_id);
-    console.log(train_from_id);
-    console.log(train_to_id);
-    console.log(typeof this.state.onDate);
+    // console.log(train_id);
+    // console.log(train_from_id);
+    // console.log(train_to_id);
+    // console.log(typeof this.state.onDate);
     const headers = {
       Authorization: "bearer " + cookies.get("user_token"),
     };
@@ -146,7 +146,8 @@ export class Book extends Component {
           </div>
           <div className="col-12 p-1 px-5 col-lg-6">
             <div className="p-5 form-box">
-              <h6>Your Trains will be shown here : </h6>
+              <h5>Your Trains will be shown here : </h5>
+              {this.state.runFirst && this.state.trainArray.length === 0 && (<h6 className="p-5">No Trains found on this route</h6>)}
               {this.state.runFirst &&
                 this.state.trainArray.map((train) => {
                   return (
