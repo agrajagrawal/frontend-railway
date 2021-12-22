@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Giffy from "./Giffy";
 import axios from "axios";
+import { Link } from "react-router-dom";
 export class Main extends Component {
   constructor(props) {
     super(props);
@@ -106,8 +107,9 @@ export class Main extends Component {
                 this.state.trainArray.map((train) => {
                   return (
                     <div className="card1-design mt-1 mb-3">
-                      <div className="d-flex justify-content-center">
-                        <h4>{train.train_name}</h4>
+                      <div className="d-flex justify-content-between">
+                        <h3>{train.train_name}</h3>
+                        <h6><span style={{color:"green"}}>Fare: ₹{train.train_fare}</span></h6>
                       </div>
                       <div className="d-flex justify-content-between">
                         <h5>{train.fromStation_id.toUpperCase()}</h5>
@@ -123,10 +125,12 @@ export class Main extends Component {
                 {this.state.runFirst && this.state.trainArray.length === 0 && (<h6>No Trains found on this route</h6>)}
 
               <div className="d-flex justify-content-center mt-4 ">
+              <Link className="nav-link" to="/signin">
                 <button className="btn btn-dark px-4 p-2 book-button">
                   {" "}
                   Book Train{" "}
                 </button>
+                </Link>
               </div>
             </div>
           </div>

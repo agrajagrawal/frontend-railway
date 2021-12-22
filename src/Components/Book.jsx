@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
+import PreviousTrips from "./PreviousTrips";
 const cookies = new Cookies();
 
 export class Book extends Component {
@@ -13,13 +14,18 @@ export class Book extends Component {
       onDate: new Date(),
       trainArray: [],
       passengers: 1,
+      toggle : false
     };
   }
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
+  toggle = () => {
+    this.setState({toggle : true});
+  }
   onSubmitHandle = (e) => {
     e.preventDefault();
+    console.log(cookies.get("user_token"));
     const data = {
       fromStation: this.state.fromStation.toLowerCase(),
       toStation: this.state.toStation.toLowerCase(),
@@ -40,18 +46,35 @@ export class Book extends Component {
         console.log(err);
       });
   };
-  bookThisTicket = (prop) => {
-    console.log(prop);
+  bookThisTicket = (train_id , train_from_id , train_to_id) => {
+    console.log(train_id);
+    console.log(train_from_id);
+    console.log(train_to_id);
+    console.log(typeof this.state.onDate);
     const headers = {
       Authorization: "bearer " + cookies.get("user_token"),
     };
+    const data = {
+      "fromStation" : train_from_id,
+    "toStation": train_to_id ,
+    "noOfPassengers" : this.state.passengers,
+    "train_id": 10231 ,
+    "date": this.state.onDate
+    }
+    console.log(data);
+    axios.post('http://localhost:8080/reserve-tickets', data , {headers : headers })
+    .then((res) => {console.log(res); alert(res.data.message);})
+    .catch((err) => console.log(err)) 
   
   };
   render() {
+    if(this.state.toggle) {
+      return <PreviousTrips />
+  }
     return (
       <>
         <div className="m-2 px-5 ">
-          <button className="p-1 float-right px-4" style={{borderRadius : "10px", position : "fixed"}}> Previous Trips </button>
+          <button className="p-1 float-right px-4" onClick={this.toggle} style={{borderRadius : "10px", position : "fixed"}}> Previous Trips </button>
         </div>
         <div className="d-flex row p-5">
           <div className="form-box p-5 col-12 col-lg-6">
@@ -128,8 +151,10 @@ export class Book extends Component {
                 this.state.trainArray.map((train) => {
                   return (
                     <div className="card1-design mt-1 mb-3">
-                      <div className="d-flex justify-content-center">
-                        <h4>{train.train_name}</h4>
+                      <div className="d-flex justify-content-between">
+                        <h3>{train.train_name}</h3>
+                        <h6><span style={{color:"green"}}>Fare: ₹{train.train_fare}</span></h6>
+
                       </div>
                       <div className="d-flex justify-content-between">
                         <h5>{train.fromStation_id.toUpperCase()}</h5>
@@ -140,7 +165,7 @@ export class Book extends Component {
                         <h6>{train.departure_time.toUpperCase()}</h6>
                       </div>
                       <div className="d-flex justify-content-center">
-                        <button onClick={this.bookThisTicket(train.train_no)} style={{borderRadius : "10px"}}>
+                        <button onClick={() => this.bookThisTicket(train.train_no, train.fromStation_id.toLowerCase(), train.toStation_id.toLowerCase())} style={{borderRadius : "10px"}} className="px-4 p-2">
                           Book
                         </button>
                       </div>
