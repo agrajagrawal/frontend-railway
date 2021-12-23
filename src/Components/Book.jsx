@@ -62,7 +62,7 @@ export class Book extends Component {
     }
     axios.post('http://localhost:8080/reserve-tickets', data , {headers : headers })
     .then((res) => {console.log(res); alert(res.data.message);})
-    .catch((err) => alert(err.response.data.message)); 
+    .catch((err) => alert(err.response.data.data[0].msg)); 
   
   };
   render() {

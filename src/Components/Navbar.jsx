@@ -23,8 +23,16 @@ export class Navbar extends Component {
     else
      isLoggedIn = false;
     // console.log(cookies.get("user_token"), isLoggedIn);
-    const log = (isLoggedIn) ? 'LogOut' : 'LogIn';
-    const authLink = (isLoggedIn) ? '/logout' : '/signin';
+    let log, authLink;
+    if(isLoggedIn){
+      log = 'LogOut';
+      authLink = '/logout';
+    }
+    else{
+      log = 'LogIn';
+      authLink = '/signin';
+    }
+    // const authLink = (isLoggedIn) ? '/logout' : '/signin';
     return (
         <>
         <Router>

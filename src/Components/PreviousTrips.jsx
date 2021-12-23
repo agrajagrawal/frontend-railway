@@ -90,12 +90,15 @@ export class PreviousTrips extends Component {
                 month = 12;
               //  console.log(train.journey_date.split('-'));
                const dateOfJourney = train.journey_date.split('-')[2].split('T')[0];
-               if(Number(date[3]) >= Number(train.journey_date.split('-')[0]) && month >= Number(train.journey_date.split('-')[1]) && Number(date[2]) >= Number(dateOfJourney)){
+               let train_date = train.journey_date.split('-').slice(0,2);
+               train_date.push(dateOfJourney);
+               train_date = train_date.join('-');
+               if(Number(date[3]) <= Number(train.journey_date.split('-')[0]) && month <= Number(train.journey_date.split('-')[1]) && Number(date[2]) <= Number(dateOfJourney)){
                 return (
                   <tr>
                     <td>{train.from_station.toUpperCase()}</td>
                     <td>{train.to_station.toUpperCase()}</td>
-                    <td>{date.slice(1,).join('-')}</td>
+                    <td>{train_date}</td>
                     <td>{train.no_of_passenger}</td>
                     <td>{train.cost}</td>
                     <td>{train.arrival_time}</td>
@@ -151,14 +154,20 @@ export class PreviousTrips extends Component {
                 month = 11;
                else if(date[1] === 'Dec')
                 month = 12;
-              //  console.log(train.journey_date.split('-'));
+
                const dateOfJourney = train.journey_date.split('-')[2].split('T')[0];
-               if(Number(date[3]) < Number(train.journey_date.split('-')[0]) || month < Number(train.journey_date.split('-')[1]) || Number(date[2]) < Number(dateOfJourney)){
+               let train_date = train.journey_date.split('-').slice(0,2);
+               train_date.push(dateOfJourney);
+               console.log(train_date);
+               const d1 = new Date(), d2 = new Date(Number(train_date[0]), Number(train_date[1])-1, Number(train_date[2]), 23, 59, 59);
+               console.log(d1, d2);
+               if(d1.getTime() > d2.getTime()){
+                train_date = train_date.join('-');
                 return (
                   <tr>
                     <td>{train.from_station.toUpperCase()}</td>
                     <td>{train.to_station.toUpperCase()}</td>
-                    <td>{date.slice(1,).join('-')}</td>
+                    <td>{train_date}</td>
                     <td>{train.no_of_passenger}</td>
                     <td>{train.cost}</td>
                     <td>{train.arrival_time}</td>
