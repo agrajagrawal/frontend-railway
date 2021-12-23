@@ -12,6 +12,7 @@ export class Main extends Component {
       onDate: new Date(),
       trainArray: [],
       runFirst: false,
+      isLoggedIn: false,
     };
   }
 
@@ -32,7 +33,7 @@ export class Main extends Component {
         console.log(numm);
         if (Math.floor(numm / 100) === 2) {
           this.setState({ runFirst: true });
-          console.log(res.data.trains);
+          // console.log(res.data.trains);
           this.setState({ trainArray: res.data.trains });
         } else {
           alert(numm);
@@ -128,9 +129,8 @@ export class Main extends Component {
                   );
                 })}
                 {this.state.runFirst && this.state.trainArray.length === 0 && (<h6>No Trains found on this route</h6>)}
-
               <div className="d-flex justify-content-center mt-4 ">
-              <Link className="nav-link" to="/signin">
+                <Link className="nav-link" to="/book">
                 <button className="btn btn-dark px-4 p-2 book-button">
                   {" "}
                   Book Train{" "}

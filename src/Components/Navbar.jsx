@@ -11,7 +11,20 @@ import Logout from "./Logout";
 import Book from "./Book";
 const cookies = new Cookies();
 export class Navbar extends Component {
+  constructor(props){
+    super(props);
+    this.state = {isLoggedIn: false,};
+  }
+
   render() {
+    let isLoggedIn;
+    if(cookies.get("user_token"))
+     isLoggedIn = true;
+    else
+     isLoggedIn = false;
+    // console.log(cookies.get("user_token"), isLoggedIn);
+    const log = (isLoggedIn) ? 'LogOut' : 'LogIn';
+    const authLink = (isLoggedIn) ? '/logout' : '/signin';
     return (
         <>
         <Router>
@@ -49,10 +62,10 @@ export class Navbar extends Component {
                   </li>
                   
                   <li className="nav-item px-2" style={{border: "0.2px solid white" , borderRadius: "10px" }}>
-                    <Link className="nav-link" to="/signin">
+                    <Link className="nav-link" to= {authLink}>
                       {" "}
                        <span style={{}}> 
-                          LogIn
+                          {log}
                         </span>
                     </Link>
                   </li>
@@ -71,8 +84,7 @@ export class Navbar extends Component {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/book" element={<Book />} />
-
-                  {/* <Route path="/logout" element={<Logout />} /> */}
+                  <Route path="/logout" element={<Logout />} />
 
                 </Routes>
         </Router>
