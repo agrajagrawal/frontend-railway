@@ -32,12 +32,10 @@ export class Login extends Component {
           console.log("Token Set");
           cookies.set("user_token", res.data.token, { path: "/" });
           this.setState({ redirect: true });
-        } else {
-          alert(res.statusText);
-        }
+        } 
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.response.data.message)
       });
   };
   render() {

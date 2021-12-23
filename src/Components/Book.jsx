@@ -25,7 +25,6 @@ export class Book extends Component {
   }
   onSubmitHandle = (e) => {
     e.preventDefault();
-    console.log(cookies.get("user_token"));
     const data = {
       fromStation: this.state.fromStation.toLowerCase(),
       toStation: this.state.toStation.toLowerCase(),
@@ -36,14 +35,14 @@ export class Book extends Component {
         const numm = Number(res.status);
         if (Math.floor(numm / 100) === 2) {
           this.setState({ runFirst: true });
-          console.log(res.data.trains);
+          // console.log(res.data.trains);
           this.setState({ trainArray: res.data.trains });
         } else {
           alert(numm);
         }
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.response.data.message)
       });
   };
   bookThisTicket = (train_id , train_from_id , train_to_id) => {
@@ -58,13 +57,12 @@ export class Book extends Component {
       "fromStation" : train_from_id,
     "toStation": train_to_id ,
     "noOfPassengers" : this.state.passengers,
-    "train_id": 10231 ,
+    "train_id": train_id ,
     "date": this.state.onDate
     }
-    console.log(data);
     axios.post('http://localhost:8080/reserve-tickets', data , {headers : headers })
     .then((res) => {console.log(res); alert(res.data.message);})
-    .catch((err) => console.log(err)) 
+    .catch((err) => alert(err.response.data.message)); 
   
   };
   render() {
@@ -101,10 +99,12 @@ export class Book extends Component {
                   onChange={this.onChange}
                   required
                 >
-                  <option>Agra-AGR</option>
+                  <option>Select Station</option>
                   <option>Kanpur-CNB</option>
+                  <option>Varanasi-BSB</option>
                   <option>Lucknow-LKO</option>
-                  <option>Delhi-DLH</option>
+                  <option>New Delhi-NDLS</option>
+                  <option>Prayagraj-PRYJ</option>
                 </select>
               </div>
               <div className="form-group p-2 px-5">
@@ -117,10 +117,12 @@ export class Book extends Component {
                   onChange={this.onChange}
                   required
                 >
+                  <option>Select Station</option>
                   <option>Kanpur-CNB</option>
-                  <option>Agra-AGR</option>
+                  <option>Varanasi-BSB</option>
                   <option>Lucknow-LKO</option>
-                  <option>Delhi-DLH</option>
+                  <option>New Delhi-NDLS</option>
+                  <option>Prayagraj-PRYJ</option>
                 </select>
               </div>
               <div className="form-group p-2 px-5">

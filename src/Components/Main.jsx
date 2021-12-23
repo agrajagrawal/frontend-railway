@@ -22,13 +22,14 @@ export class Main extends Component {
   submitHanlde = (e) => {
     e.preventDefault();
     const data = {
-      fromStation: this.state.fromStation.toLowerCase(),
-      toStation: this.state.toStation.toLowerCase(),
+      fromStation: this.state.fromStation,
+      toStation: this.state.toStation,
     };
     axios
       .post("http://localhost:8080/search-trains", data)
       .then((res) => {
         const numm = Number(res.status);
+        console.log(numm);
         if (Math.floor(numm / 100) === 2) {
           this.setState({ runFirst: true });
           console.log(res.data.trains);
@@ -38,7 +39,7 @@ export class Main extends Component {
         }
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.response.data.message)
       });
   };
   render() {
@@ -71,10 +72,12 @@ export class Main extends Component {
                     onChange={this.onChange}
                     required
                   >
-                    <option>Agra-AGR</option>
+                    <option>Select Station</option>
                     <option>Kanpur-CNB</option>
+                    <option>Varanasi-BSB</option>
                     <option>Lucknow-LKO</option>
-                    <option>Delhi-DLH</option>
+                    <option>New Delhi-NDLS</option>
+                    <option>Prayagraj-PRYJ</option>
                   </select>
                 </div>
                 <div className="form-group p-2 px-5">
@@ -87,10 +90,12 @@ export class Main extends Component {
                     onChange={this.onChange}
                     required
                   >
+                    <option>Select Station</option>
                     <option>Kanpur-CNB</option>
-                    <option>Agra-AGR</option>
+                    <option>Varanasi-BSB</option>
                     <option>Lucknow-LKO</option>
-                    <option>Delhi-DLH</option>
+                    <option>New Delhi-NDLS</option>
+                    <option>Prayagraj-PRYJ</option>
                   </select>
                 </div>
                 <div className="px-5 d-flex justify-content-center mt-5">

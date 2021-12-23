@@ -42,16 +42,11 @@ export class Signup extends Component {
           alert("User Registered");
           this.setState({redirect : true});
           console.log(res);
-        } else { 
-          alert(res.statusText);
         } 
       })
        .catch((err) => {
-         console.log(err);
+        alert(err.response.data.data[0].msg);
        })
-
-
-
       }
   }
   render() {
