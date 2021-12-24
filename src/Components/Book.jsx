@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
 import PreviousTrips from "./PreviousTrips";
+import Login from "./Login";
 const cookies = new Cookies();
 
 export class Book extends Component {
@@ -42,7 +43,11 @@ export class Book extends Component {
         }
       })
       .catch((err) => {
-        alert(err.response.data.message)
+        alert(err.response.data.message);
+        // console.log(err.response.data.status);
+        if(err.response.data.status === 501){
+          cookies.remove("user_token");
+        }
       });
   };
   bookThisTicket = (train_id , train_from_id , train_to_id) => {
@@ -69,6 +74,9 @@ export class Book extends Component {
     if(this.state.toggle) {
       return <PreviousTrips />
   }
+  // if(!this.state.isLoggedIn){
+  //   return <Login />
+  // }
     return (
       <>
         <div className="m-2 px-5 ">

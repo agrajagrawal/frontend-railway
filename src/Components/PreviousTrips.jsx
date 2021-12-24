@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Book from "./Book";
+import Login from "./Login";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -11,6 +12,7 @@ export class PreviousTrips extends Component {
     this.state = {
       toggle: false,
       trains: [],
+      isLoggedIn: true
     };
   }
   toggle = () => {
@@ -26,12 +28,20 @@ export class PreviousTrips extends Component {
         console.log(res);
         this.setState({ trains: res.data.trains });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        alert(err.response.data.message);
+        // console.log(err.response.data.status);
+        if(err.response.data.status === 501){
+          cookies.remove("user_token");
+        }
+      });
   }
   render() {
     if (this.state.toggle) {
       return <Book />;
     }
+    // if(!cookies.get("user_token"))
+    //   return <Login />;
     return (
       <div>
         <div className="m-2 px-5 ">
@@ -92,8 +102,10 @@ export class PreviousTrips extends Component {
                const dateOfJourney = train.journey_date.split('-')[2].split('T')[0];
                let train_date = train.journey_date.split('-').slice(0,2);
                train_date.push(dateOfJourney);
-               train_date = train_date.join('-');
-               if(Number(date[3]) <= Number(train.journey_date.split('-')[0]) && month <= Number(train.journey_date.split('-')[1]) && Number(date[2]) <= Number(dateOfJourney)){
+               const d1 = new Date(), d2 = new Date(Number(train_date[0]), Number(train_date[1])-1, Number(train_date[2]), Number(train.arrival_time.split(':')[0]), Number(train.arrival_time.split(':')[1]), Number(train.arrival_time.split(':')[2]));
+              //  console.log(d1.getTime(), d2.getTime());
+               if(d1.getTime() <= d2.getTime()){
+                train_date = train_date.join('-');
                 return (
                   <tr>
                     <td>{train.from_station.toUpperCase()}</td>
@@ -158,9 +170,9 @@ export class PreviousTrips extends Component {
                const dateOfJourney = train.journey_date.split('-')[2].split('T')[0];
                let train_date = train.journey_date.split('-').slice(0,2);
                train_date.push(dateOfJourney);
-               console.log(train_date);
-               const d1 = new Date(), d2 = new Date(Number(train_date[0]), Number(train_date[1])-1, Number(train_date[2]), 23, 59, 59);
-               console.log(d1, d2);
+              //  console.log(train_date);
+               const d1 = new Date(), d2 = new Date(Number(train_date[0]), Number(train_date[1])-1, Number(train_date[2]), Number(train.arrival_time.split(':')[0]), Number(train.arrival_time.split(':')[1]), Number(train.arrival_time.split(':')[2]));
+              //  console.log(d1.getTime(), d2.getTime());
                if(d1.getTime() > d2.getTime()){
                 train_date = train_date.join('-');
                 return (
