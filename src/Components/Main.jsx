@@ -18,10 +18,12 @@ export class Main extends Component {
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-    // console.log(this.state);
   };
   submitHanlde = (e) => {
     e.preventDefault();
+    if(this.state.fromStation==="" || this.state.toStation===""){
+      alert("Some Fields Are Missing");
+    }
     const data = {
       fromStation: this.state.fromStation,
       toStation: this.state.toStation,
@@ -33,7 +35,6 @@ export class Main extends Component {
         console.log(numm);
         if (Math.floor(numm / 100) === 2) {
           this.setState({ runFirst: true });
-          // console.log(res.data.trains);
           this.setState({ trainArray: res.data.trains });
         } else {
           alert(numm);
@@ -49,10 +50,9 @@ export class Main extends Component {
       });
   };
   render() {
-    console.log(this.state);
     return (
       <>
-        <div className="row d-flex">
+        <div className="row d-flex" style={{"fontFamily": "cursive"}}>
           <div className="col-12 col-lg-6 p-5">
             <div className="form-box p-5 ">
               <form onSubmit={this.submitHanlde}>
@@ -65,7 +65,6 @@ export class Main extends Component {
                     name="onDate"
                     value={this.state.onDate}
                     onChange={this.onChange}
-                    // required
                   />
                 </div>
                 <div className="form-group p-2 px-5">
