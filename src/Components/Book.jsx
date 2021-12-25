@@ -43,7 +43,12 @@ export class Book extends Component {
         }
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        if(err.response.data.data){
+          alert(err.response.data.data[0].msg);
+        }
+        else{
+          alert(err.response.data.message)
+        }
         // console.log(err.response.data.status);
         if(err.response.data.status === 501){
           cookies.remove("user_token");
@@ -68,7 +73,13 @@ export class Book extends Component {
     axios.post('http://localhost:8080/reserve-tickets', data , {headers : headers })
     .then((res) => {console.log(res); alert(res.data.message);})
     .catch((err) => {
-      alert(err.response.data.message)
+      console.log(err.response.data);
+      if(err.response.data.data){
+        alert(err.response.data.data[0].msg);
+      }
+      else{
+        alert(err.response.data.message)
+      }
     }); 
   
   };

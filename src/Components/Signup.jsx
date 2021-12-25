@@ -45,7 +45,12 @@ export class Signup extends Component {
         } 
       })
        .catch((err) => {
-        alert(err.response.data.data[0].msg);
+        if(err.response.data.data){
+          alert(err.response.data.data[0].msg);
+        }
+        else{
+          alert(err.response.data.message)
+        }
        })
       }
   }

@@ -29,7 +29,12 @@ export class PreviousTrips extends Component {
         this.setState({ trains: res.data.trains });
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        if(err.response.data.data){
+          alert(err.response.data.data[0].msg);
+        }
+        else{
+          alert(err.response.data.message)
+        }
         // console.log(err.response.data.status);
         if(err.response.data.status === 501){
           cookies.remove("user_token");
