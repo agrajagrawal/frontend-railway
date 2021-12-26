@@ -9,6 +9,7 @@ import About from "./About";
 import Cookies from "universal-cookie";
 import Logout from "./Logout";
 import Book from "./Book";
+import Page404 from "./Page404";
 const cookies = new Cookies();
 export class Navbar extends Component {
   constructor(props){
@@ -25,18 +26,18 @@ export class Navbar extends Component {
     // console.log(cookies.get("user_token"), isLoggedIn);
     let log, authLink;
     if(isLoggedIn){
-      log = 'LogOut';
+      log = 'Log Out';
       authLink = '/logout';
     }
     else{
-      log = 'LogIn';
+      log = 'Log In';
       authLink = '/signin';
     }
     // const authLink = (isLoggedIn) ? '/logout' : '/signin';
     return (
         <>
         <Router>
-        <nav className="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg fixed-top navbar-light bg-light" style={{"fontFamily": "cursive"}}>
           <div className="container-fluid ">
             <a className="navbar-brand" href="#">
               
@@ -87,14 +88,14 @@ export class Navbar extends Component {
           </div>
         </nav>
         <Routes>
-                  <Route path="/" element={<Main />} />
+                  <Route exact path="/" element={<Main />} />
                   <Route path="/signin" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/book" element={<Book />} />
                   <Route path="/logout" element={<Logout />} />
-
-                </Routes>
+                  <Route path="/*" element={<Page404 />} />
+        </Routes>
         </Router>
         </>
 
